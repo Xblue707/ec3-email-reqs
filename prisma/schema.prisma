@@ -1,0 +1,44 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-kysely"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./db.sqlite"
+}
+
+model User {
+  id               String            @id
+  email            String            @unique
+  session          Session[]
+  EmailApplication EmailApplication?
+}
+
+model Session {
+  id        String   @id
+  userId    String
+  expiresAt DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model EmailApplication {
+  id                       String  @id
+  userId                   String  @unique
+  username                 String
+  // domainName            String
+  // enablePasswordReset   Boolean
+  password                 String
+  recoveryEmail            String
+  recoveryEmailDescription String
+  recoveryPhone            String?
+  recoveryPhoneDescription String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
