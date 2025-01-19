@@ -1,14 +1,26 @@
 {
-  "name": "ec3-email-reqs",
-  "type": "module",
-  "version": "0.0.1",
-  "scripts": {
-    "dev": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview",
-    "astro": "astro"
-  },
-  "dependencies": {
-    "astro": "^5.1.7"
-  }
+	"name": "ec3-email-reqs",
+	"type": "module",
+	"version": "0.0.1",
+	"scripts": {
+		"dev": "astro dev",
+		"build": "astro build",
+		"preview": "astro preview",
+		"astro": "astro"
+	},
+	"dependencies": {
+		"@astrojs/alpinejs": "^0.4.1",
+		"@astrojs/tailwind": "^5.1.4",
+		"@astrojs/vue": "^5.0.5",
+		"@types/alpinejs": "^3.13.11",
+		"alpinejs": "^3.14.8",
+		"astro": "^5.1.7",
+		"tailwindcss": "^3.4.17",
+		"vue": "^3.5.13"
+	},
+	"packageManager": "yarn@4.6.0",
+	"devDependencies": {
+		"@biomejs/biome": "1.9.4",
+		"daisyui": "^4.12.23"
+	}
 }

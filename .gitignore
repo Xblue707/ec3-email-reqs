@@ -1,6 +1,10 @@
 # build output
 dist/
 
+.yarn/*
+!.yarn/releases/
+
+
 # generated types
 .astro/
 
