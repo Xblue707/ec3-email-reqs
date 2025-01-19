@@ -806,6 +806,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@iconify-json/mdi@npm:^1.2.2":
+  version: 1.2.2
+  resolution: "@iconify-json/mdi@npm:1.2.2"
+  dependencies:
+    "@iconify/types": "npm:*"
+  checksum: 10c0/48539be16af088e92557fdb0a6a5c33a67bcc84e59587723cdd626875047eb4be59fe69702a157bf57db1176f5592bbb2d151902e880d7f55b56ffd59ba80467
+  languageName: node
+  linkType: hard
+
 "@iconify/tailwind@npm:^1.2.0":
   version: 1.2.0
   resolution: "@iconify/tailwind@npm:1.2.0"
@@ -3088,6 +3097,7 @@ __metadata:
     "@astrojs/vue": "npm:^5.0.5"
     "@biomejs/biome": "npm:1.9.4"
     "@iconify-json/logos": "npm:^1.2.4"
+    "@iconify-json/mdi": "npm:^1.2.2"
     "@iconify/tailwind": "npm:^1.2.0"
     "@oslojs/crypto": "npm:^1.0.1"
     "@oslojs/encoding": "npm:^1.1.0"

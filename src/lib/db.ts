@@ -1,5 +1,5 @@
 import SQLite from 'better-sqlite3';
-import { Kysely, SqliteDialect } from 'kysely';
+import { Kysely, SqliteDialect, ParseJSONResultsPlugin } from 'kysely';
 import type { DB } from '~/prisma/generated/types';
 
 const dialect = new SqliteDialect({
@@ -7,5 +7,6 @@ const dialect = new SqliteDialect({
 });
 
 export const db = new Kysely<DB>({
+	plugins: [new ParseJSONResultsPlugin()],
 	dialect,
 });

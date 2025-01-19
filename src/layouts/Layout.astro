@@ -1,3 +1,9 @@
+---
+import placeholderPfp from '@/assets/placeholder-pfp.webp';
+
+const user = Astro.locals.user;
+---
+
 <!doctype html>
 <html lang="en">
 	<head>
@@ -5,7 +11,7 @@
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
+		<title>Email Portal</title>
 		<style>
 			html,
 			body {
@@ -16,6 +22,23 @@
 		</style>
 	</head>
 	<body>
+		{user ? (
+			<header class="absolute top-0 right-0">
+				<nav class="flex space-x-4 p-4 mr-5">
+					<details class="dropdown dropdown-end">
+						<summary class="btn btn-circle m-1">
+							<img src={user.pictureUrl || placeholderPfp.src} alt="Profile Picture" class="rounded-full w-9 h-9" referrerpolicy="no-referrer" />
+						</summary>
+						<ul class="menu dropdown-content bg-base-200 rounded-box z-[1] w-52 p-2 mt-1 shadow">
+							<li><span>Welcome, {user.name}!</span></li>
+							<li>
+								<a href="/api/logout/" class="text-red-500">Logout <span class="icon-[mdi--logout] h-4 w-4"></span></a>
+							</li>
+						</ul>
+					</details>
+				</nav>
+			</header>
+		) : null}
 		<slot />
 	</body>
 </html>

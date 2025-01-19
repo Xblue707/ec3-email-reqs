@@ -2,7 +2,7 @@ import { invalidateSession, deleteSessionTokenCookie } from '@/lib/session';
 
 import type { APIContext } from 'astro';
 
-export async function POST(context: APIContext) {
+export async function ALL(context: APIContext) {
 	const { session } = context.locals;
 
 	if (session === null) {
