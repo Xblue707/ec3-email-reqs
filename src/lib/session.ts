@@ -49,7 +49,10 @@ export async function validateSessionToken(
 			'userId',
 			'expiresAt',
 			jsonObjectFrom(
-				eb.selectFrom('User').selectAll().where('id', '==', 'Session.userId'),
+				eb
+					.selectFrom('User')
+					.select(['id', 'email', 'expiresAt', 'userId', 'name', 'pictureUrl'])
+					.whereRef('User.id', '==', 'Session.userId'),
 			).as('user'),
 		])
 		.where('id', '==', sessionId)

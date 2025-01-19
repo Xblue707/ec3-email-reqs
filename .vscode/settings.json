@@ -1,0 +1,11 @@
+{
+	"sqltools.useNodeRuntime": true,
+	"sqltools.connections": [
+		{
+			"previewLimit": 100,
+			"driver": "SQLite",
+			"name": "ec3-email-reqs-local",
+			"database": "${workspaceFolder:ec3-email-reqs}/prisma/schema.prisma"
+		}
+	]
+}

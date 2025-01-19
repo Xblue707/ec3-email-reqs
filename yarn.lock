@@ -797,6 +797,31 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@iconify-json/logos@npm:^1.2.4":
+  version: 1.2.4
+  resolution: "@iconify-json/logos@npm:1.2.4"
+  dependencies:
+    "@iconify/types": "npm:*"
+  checksum: 10c0/b1e835ed858fbfc0f183e0b22cebc499bfce1b0a5205b7af17e18a7ba95dd47ffc0ef4617aae670b71ad1f70a605505157a3f2c96d408094c3132c3c571305a4
+  languageName: node
+  linkType: hard
+
+"@iconify/tailwind@npm:^1.2.0":
+  version: 1.2.0
+  resolution: "@iconify/tailwind@npm:1.2.0"
+  dependencies:
+    "@iconify/types": "npm:^2.0.0"
+  checksum: 10c0/3b92cf95ea23231700cc0b2c4db9438a4502ab474d7848f396ebbbd09c2babcff07ea436d6e6267ecc67ef22eeeb2ae8ab4cb48bd2c4d4aa55f577c4d55b38f5
+  languageName: node
+  linkType: hard
+
+"@iconify/types@npm:*, @iconify/types@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "@iconify/types@npm:2.0.0"
+  checksum: 10c0/65a3be43500c7ccacf360e136d00e1717f050b7b91da644e94370256ac66f582d59212bdb30d00788aab4fc078262e91c95b805d1808d654b72f6d2072a7e4b2
+  languageName: node
+  linkType: hard
+
 "@img/sharp-darwin-arm64@npm:0.33.5":
   version: 0.33.5
   resolution: "@img/sharp-darwin-arm64@npm:0.33.5"
@@ -3062,6 +3087,8 @@ __metadata:
     "@astrojs/tailwind": "npm:^5.1.4"
     "@astrojs/vue": "npm:^5.0.5"
     "@biomejs/biome": "npm:1.9.4"
+    "@iconify-json/logos": "npm:^1.2.4"
+    "@iconify/tailwind": "npm:^1.2.0"
     "@oslojs/crypto": "npm:^1.0.1"
     "@oslojs/encoding": "npm:^1.1.0"
     "@paralleldrive/cuid2": "npm:^2.2.2"

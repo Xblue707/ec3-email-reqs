@@ -6,6 +6,7 @@ import {
 	generateSessionToken,
 	setSessionTokenCookie,
 } from '@/lib/session';
+import { siteConfig } from '@/siteConfig';
 import { createId as cuid2 } from '@paralleldrive/cuid2';
 import { decodeIdToken } from 'arctic';
 
@@ -67,6 +68,17 @@ export async function GET(context: APIContext): Promise<Response> {
 
 	// check if user is within organization
 	const domain = googleEmail.split('@')[1];
+	// check if ends with domain
+	if (!siteConfig.permittedDomains.some((d) => domain.endsWith(d))) {
+		return new Response(
+			JSON.stringify({
+				error: 'User is not from a permitted domain',
+			}),
+			{
+				status: 403,
+			},
+		);
+	}
 
 	// create user if not exists
 	const user = await db
@@ -74,9 +86,13 @@ export async function GET(context: APIContext): Promise<Response> {
 		.values({
 			id: cuid2(),
 			email: googleEmail,
+			name: claims.name,
+			pictureUrl: claims.picture,
 		})
 		.returningAll()
 		.executeTakeFirst();
+
+	console.log('New User:', user);
 
 	const sessionToken = generateSessionToken();
 	const session = await createSession(sessionToken, user!.id);

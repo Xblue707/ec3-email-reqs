@@ -14,7 +14,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
 	}
 
 	const { session, user } = await validateSessionToken(token);
-	if (session !== null) {
+	if (session) {
 		setSessionTokenCookie(context, token, session.expiresAt);
 	} else {
 		deleteSessionTokenCookie(context);
