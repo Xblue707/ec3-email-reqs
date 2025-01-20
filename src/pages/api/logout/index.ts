@@ -1,4 +1,4 @@
-import { invalidateSession, deleteSessionTokenCookie } from '@/lib/session';
+import { deleteSessionTokenCookie, invalidateSession } from '@/lib/session';
 
 import type { APIContext } from 'astro';
 

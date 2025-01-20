@@ -1,16 +1,73 @@
 ---
+import { db } from '@/lib/db';
+
 import Layout from '../layouts/Layout.astro';
 
 const session = Astro.locals.session;
 const user = Astro.locals.user!;
 
+const applications = await db
+	.selectFrom('EmailApplication')
+	.select((eb) => [
+		'id',
+		'username',
+		'recoveryEmail',
+		'recoveryEmailDescription',
+		'recoveryPhone',
+		'recoveryPhoneDescription',
+		'approved',
+	])
+	.where('userId', '==', user.id)
+	.execute();
+
+console.log(applications);
+
 if (!session) {
-	return Astro.redirect('/portal', 401);
+	return Astro.redirect('/', 401);
 }
 ---
 
 <Layout>
-	<div class="flex flex-col justify-center items-center align-middle h-full">
+	<div class="flex flex-col h-full sm:w-5/6 md:w-4/5 mx-auto pt-32">
+		<h1 class="text-3xl font-bold text-center">Emails</h1>
+		<p class="text-center mt-3">View your own ec3.dev emails or applications</p>
 
+		<div class="overflow-x-auto mt-8">
+			<table class="table table-zebra">
+				<!-- head -->
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>Email</th>
+						<th>Recovery Email</th>
+						<th>Recovery Email Description</th>
+						<th>Recovery Phone No.</th>
+						<th>Recovery Phone No. Description</th>
+						<th>Status</th>
+					</tr>
+				</thead>
+				<tbody>
+					<!-- row 1 -->
+					{applications.length && applications.map(application => {
+						return (
+							<tr>
+								<td>{application.id}</td>
+								<td>{application.username}@ec3.dev</td>
+								<td>{application.recoveryEmail}</td>
+								<td>{application.recoveryEmailDescription}</td>
+								<td>{application.recoveryPhone || <span class="text-red-500">Not set</span>}</td>
+								<td>{application.recoveryPhoneDescription || <span class="text-red-500">Not set</span>}</td>
+								<td>{application.approved ? <span class=" text-green-500">Approved</span> : <span class="text-yellow-500">Pending</span>}</td>
+							</tr>
+						)
+					})}
+					{!applications.length && (
+						<tr>
+							<td colspan="7" class="text-center">No pending/approved applications found. Check your recovery email to see if any applications have been rejected.</td>
+						</tr>
+					)}
+				</tbody>
+			</table>
+		</div>
 	</div>
 </Layout>

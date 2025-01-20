@@ -1,3 +1,4 @@
 export const siteConfig = {
-	permittedDomains: ['ec3.dev', 'hci.edu.sg'],
+	permittedDomains: ['hci.edu.sg'],
+	adminEmails: ['221255y@student.hci.edu.sg'],
 };

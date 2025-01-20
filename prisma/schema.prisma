@@ -36,11 +36,12 @@ model EmailApplication {
   username                 String
   // domainName            String
   // enablePasswordReset   Boolean
-  password                 String
+  password                 String?
   recoveryEmail            String
   recoveryEmailDescription String
   recoveryPhone            String?
   recoveryPhoneDescription String?
+  approved                 Boolean
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

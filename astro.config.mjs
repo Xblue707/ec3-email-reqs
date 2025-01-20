@@ -4,13 +4,21 @@ import { defineConfig } from 'astro/config';
 import alpinejs from '@astrojs/alpinejs';
 import tailwind from '@astrojs/tailwind';
 import vue from '@astrojs/vue';
+import icon from 'astro-icon';
 
 import node from '@astrojs/node';
 
 // https://astro.build/config
 export default defineConfig({
 	output: 'server',
-	integrations: [alpinejs(), vue(), tailwind()],
+	integrations: [
+		alpinejs({
+			entrypoint: 'src/alpine',
+		}),
+		vue(),
+		tailwind(),
+		icon(),
+	],
 	adapter: node({
 		mode: 'standalone',
 	}),

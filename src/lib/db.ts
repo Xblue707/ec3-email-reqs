@@ -1,5 +1,5 @@
 import SQLite from 'better-sqlite3';
-import { Kysely, SqliteDialect, ParseJSONResultsPlugin } from 'kysely';
+import { Kysely, ParseJSONResultsPlugin, SqliteDialect } from 'kysely';
 import type { DB } from '~/prisma/generated/types';
 
 const dialect = new SqliteDialect({

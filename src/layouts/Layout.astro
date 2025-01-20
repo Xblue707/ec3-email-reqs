@@ -1,5 +1,9 @@
 ---
+import { Icon } from 'astro-icon/components';
+import { siteConfig } from '@/siteConfig';
 import placeholderPfp from '@/assets/placeholder-pfp.webp';
+
+const isAdmin = siteConfig.adminEmails.includes(Astro.locals.user?.email ?? '');
 
 const user = Astro.locals.user;
 ---
@@ -25,17 +29,28 @@ const user = Astro.locals.user;
 		{user ? (
 			<header class="absolute top-0 right-0">
 				<nav class="flex space-x-4 p-4 mr-5">
-					<details class="dropdown dropdown-end">
-						<summary class="btn btn-circle m-1">
+					<div class="dropdown dropdown-end">
+						<div class="btn btn-circle m-1" role="button" tabindex="0">
 							<img src={user.pictureUrl || placeholderPfp.src} alt="Profile Picture" class="rounded-full w-9 h-9" referrerpolicy="no-referrer" />
-						</summary>
-						<ul class="menu dropdown-content bg-base-200 rounded-box z-[1] w-52 p-2 mt-1 shadow">
-							<li><span>Welcome, {user.name}!</span></li>
+						</div>
+						<ul tabindex="0" class="menu dropdown-content bg-base-200 rounded-box z-[1] w-52 p-2 mt-1 shadow">
+							<li class="cursor-text"><span>Welcome, {user.name}!</span></li>
 							<li>
-								<a href="/api/logout/" class="text-red-500">Logout <span class="icon-[mdi--logout] h-4 w-4"></span></a>
+								<a href="/portal/" class="text-blue-500">Portal <span class="icon-[mdi--home] h-5 w-5 mt-[2.5px]"></span></a>
+							</li>
+							<li>
+								<a href="/apply/" class="text-blue-500">Apply <span class="icon-[mdi--email-edit] h-4 w-4 mt-[2.5px]"></span></a>
+							</li>
+							{isAdmin ? (
+								<li>
+									<a href="/manage/" class="text-blue-500">Manage <span class="icon-[mdi--account-cog] h-4 w-4 mt-[2.5px]"></span></a>
+								</li>
+							) : null}
+							<li>
+								<a href="/api/logout/" class="text-red-500">Logout <span class="icon-[mdi--logout] h-4 w-4 mt-[2.5px]"></span></a>
 							</li>
 						</ul>
-					</details>
+					</div>
 				</nav>
 			</header>
 		) : null}
