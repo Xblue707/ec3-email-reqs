@@ -1,5 +1,7 @@
 import { createId as cuid2 } from '@paralleldrive/cuid2';
 import { db } from '@/lib/db';
+import { dedent } from '@/lib/util';
+import { transporter } from '@/lib/mail';
 import { siteConfig } from '@/siteConfig';
 
 import type { APIContext } from 'astro';
@@ -22,5 +24,63 @@ export async function POST(context: APIContext) {
 		});
 	}
 
-	const id = context.params.id;
+	const id = context.params.id as string;
+	
+	const application = await db.selectFrom('EmailApplication')
+		.selectAll()
+		.where('id', '==', id)
+		.executeTakeFirst();
+
+	if (!application) {
+		return new Response(JSON.stringify({
+			error: 'Application not found',
+		}), {
+			status: 404,
+		});
+	}
+
+	const applicationUser = await db.selectFrom('User')
+		.select(['name'])
+		.where('id', '==', application.userId)
+		.executeTakeFirst();
+
+	const formData = await context.request.formData();
+	const data = Object.fromEntries(formData);
+
+	const rejectionReason = data.rejectionReason as string;
+
+	const recoveryEmail = application.recoveryEmail;
+
+	const sender = import.meta.env.EMAIL_USER;
+
+	console.log(`Sending rejection email to ${recoveryEmail} from ${sender}`);
+
+	const emailInfo = await transporter.sendMail({
+		from: `"He liketh man" <${sender}>`,
+		to: recoveryEmail,
+		subject: 'ec3.dev Email Application Rejected',
+		text: dedent(`
+			Dear ${applicationUser?.name || 'Applicant'},
+
+			Your application for an email address on ec3.dev has been rejected.
+
+			Reason:
+			${rejectionReason}
+
+			Please contact an administrator if you have any questions.
+
+			- HCI EC³
+		`),
+	});
+
+	console.log(emailInfo);
+
+	const deletedApplication = await db.deleteFrom('EmailApplication')
+		.where('id', '==', id)
+		.returningAll()
+		.execute();
+
+	console.log(deletedApplication);
+
+	return context.redirect(`/manage/`);
 }
