@@ -124,6 +124,8 @@ export async function POST(context: APIContext) {
 
 			Your password for ${emailApplication.username}@ec3.dev has been successfully changed. If you did not request this change, please contact us immediately.
 
+			If not, you can now log in to your email account using your new password at https://purelymail.com/user/login, or any other suitable email client that supports IMAP/SMTP.
+
 			- HCI EC³
 		`)
 	});
