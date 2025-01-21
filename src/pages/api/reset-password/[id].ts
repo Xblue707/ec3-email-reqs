@@ -132,6 +132,11 @@ export async function POST(context: APIContext) {
 
 	console.log(emailInfo);
 
+	await db
+		.deleteFrom('ResetToken')
+		.where('id', '==', passwordResetTokenEntry.id)
+		.execute();
+
 	return context.redirect('/portal');
 }
 
