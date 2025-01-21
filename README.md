@@ -1,48 +1,44 @@
-# Astro Starter Kit: Basics
+# EC3 Email Manager
 
+Simple portal used to manage the creation of email accounts for the ec3.dev domain.
+
+Namely, members of HCI EC³ can use this portal to request the creation of email accounts for themselves. An ExCo member or "the Webmaster" will then approve the request and the account will be created.
+
+Following this, the user will receive an email with a password reset (or set) link. The user can then set their password and start using their email account on a suitable webmail client.
+
+## How to develop
+
+Before anything below, first ensure you have Node.js 20.0.0 or higher installed. Corepack should be enabled as well.
+
+1. Clone the repository
+2. Install the dependencies
+	```sh
+	yarn install
+	```
+3. Create a `.env` file in the root directory of the project and add the following environment variables:
+	```sh
+	GOOGLE_CLIENT_ID=client-id-here
+	GOOGLE_CLIENT_SECRET=client-secret-here
+
+	EMAIL_USER=email-user-here
+	EMAIL_PASS=email-password-here
+
+	PURELYMAIL_API_KEY=purelymail-api-key-here
+	```
+	NB: The default SMTP server configuration is set to use `smtp.purelymail.com`. If you are using a different SMTP server, you can head over to `src/lib/mail.ts` and change the configuration there.
+
+4. Start the development server
+	```sh
+	yarn dev
+	```
+
+## Building
+
+To build the project, run the following command:
 ```sh
-npm create astro@latest -- --template basics
+yarn build
 ```
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/basics)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/basics)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/basics/devcontainer.json)
+This will create a `dist` directory with the compiled files.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
-
-![just-the-basics](https://github.com/withastro/astro/assets/2244813/a0a5533c-a856-4198-8470-2d67b1d7c554)
-
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src/
-│   ├── layouts/
-│   │   └── Layout.astro
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
-
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+See https://docs.astro.build/en/guides/integrations-guide/node/#standalone for more.
