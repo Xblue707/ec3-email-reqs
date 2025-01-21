@@ -6,6 +6,10 @@ import Layout from '../layouts/Layout.astro';
 const session = Astro.locals.session;
 const user = Astro.locals.user!;
 
+if (!session) {
+	return Astro.redirect('/', 401);
+}
+
 const applications = await db
 	.selectFrom('EmailApplication')
 	.selectAll()
@@ -13,10 +17,6 @@ const applications = await db
 	.execute();
 
 console.log(applications);
-
-if (!session) {
-	return Astro.redirect('/', 401);
-}
 ---
 
 <Layout>

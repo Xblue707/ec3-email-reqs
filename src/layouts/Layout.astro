@@ -1,7 +1,7 @@
 ---
-import { Icon } from 'astro-icon/components';
-import { siteConfig } from '@/siteConfig';
 import placeholderPfp from '@/assets/placeholder-pfp.webp';
+import { siteConfig } from '@/siteConfig';
+import { Icon } from 'astro-icon/components';
 
 const isAdmin = siteConfig.adminEmails.includes(Astro.locals.user?.email ?? '');
 

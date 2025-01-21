@@ -1,12 +1,16 @@
 ---
 import { db } from '@/lib/db';
 
-import Layout from '../layouts/Layout.astro';
 import { siteConfig } from '@/siteConfig';
 import { jsonObjectFrom } from 'kysely/helpers/sqlite';
+import Layout from '../layouts/Layout.astro';
 
 const session = Astro.locals.session;
 const user = Astro.locals.user!;
+
+if (!session) {
+	return Astro.redirect('/', 401);
+}
 
 const applications = await db
 	.selectFrom('EmailApplication')
@@ -21,13 +25,9 @@ const applications = await db
 		jsonObjectFrom(
 			eb
 				.selectFrom('User')
-				.select([
-					'id',
-					'email',
-					'name',
-				])
-				.whereRef('EmailApplication.userId', '==', 'User.id')
-		).as('user')
+				.select(['id', 'email', 'name'])
+				.whereRef('EmailApplication.userId', '==', 'User.id'),
+		).as('user'),
 	])
 	.execute();
 
@@ -40,10 +40,6 @@ applications.sort((a, b) => {
 	}
 	return 0;
 });
-
-if (!session) {
-	return Astro.redirect('/', 401);
-}
 ---
 
 <Layout>

@@ -1,0 +1,50 @@
+---
+import { db } from '@/lib/db';
+
+import Layout from '../../layouts/Layout.astro';
+
+const session = Astro.locals.session;
+const user = Astro.locals.user!;
+
+if (!session) {
+	return Astro.redirect('/', 401);
+}
+
+const { id } = Astro.params;
+
+const passwordResetTokenEntry = await db
+	.selectFrom('ResetToken')
+	.where('id', '==', id as string)
+	.selectAll()
+	.executeTakeFirst();
+
+if (!passwordResetTokenEntry) {
+	return Astro.redirect('/portal', 404);
+}
+
+const userEntry = (await db
+	.selectFrom('User')
+	.where('id', '==', passwordResetTokenEntry.userId)
+	.selectAll()
+	.executeTakeFirst())!;
+
+if (user.email !== userEntry.email) {
+	return Astro.redirect('/portal', 401);
+}
+---
+
+<Layout>
+	<div class="flex flex-col pt-32 h-full sm:w-5/6 md:w-2/3 lg:w-1/2 xl:w-1/3 mx-auto">
+		<form method="post" action="/api/applications/add" enctype="multipart/form-data">
+			<h1 class="text-3xl font-bold text-center">Update/Set Password</h1>
+			<p class="text-center mt-3">
+				Please fill out the form below to update or set your password.
+			</p>
+			<div class="flex flex-col mt-7 gap-5">
+				
+
+				<button type="submit" class="btn btn-primary">Apply</button>
+			</div>
+		</form>
+	</div>
+</Layout>

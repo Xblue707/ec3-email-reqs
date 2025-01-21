@@ -5,7 +5,7 @@ interface Window {
 interface ImportMetaEnv {
 	readonly GOOGLE_CLIENT_ID: string;
 	readonly GOOGLE_CLIENT_SECRET: string;
-
+	readonly PURELYMAIL_API_KEY: string;
 	readonly EMAIL_USER: string;
 	readonly EMAIL_PASS: string;
 }

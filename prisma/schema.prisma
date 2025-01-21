@@ -14,12 +14,13 @@ datasource db {
 }
 
 model User {
-  id               String            @id
-  email            String            @unique
+  id               String             @id
+  email            String             @unique
   name             String
   pictureUrl       String?
   session          Session[]
-  EmailApplication EmailApplication?
+  EmailApplication EmailApplication[]
+  ResetLink        ResetToken[]
 }
 
 model Session {
@@ -32,7 +33,7 @@ model Session {
 
 model EmailApplication {
   id                       String  @id
-  userId                   String  @unique
+  userId                   String
   username                 String
   // domainName            String
   // enablePasswordReset   Boolean
@@ -42,6 +43,15 @@ model EmailApplication {
   recoveryPhone            String?
   recoveryPhoneDescription String?
   approved                 Boolean
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model ResetToken {
+  id        String   @id
+  userId    String
+  tokenHash String
+  expiresAt DateTime
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

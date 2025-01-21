@@ -25,6 +25,7 @@
 		"astro": "^5.1.7",
 		"astro-icon": "^1.1.5",
 		"better-sqlite3": "^11.8.1",
+		"ky": "^1.7.4",
 		"kysely": "^0.27.5",
 		"nodemailer": "^6.9.16",
 		"prisma-kysely": "^1.8.0",
