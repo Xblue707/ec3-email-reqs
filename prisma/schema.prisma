@@ -34,7 +34,7 @@ model Session {
 model EmailApplication {
   id                       String  @id
   userId                   String
-  username                 String
+  username                 String  @unique
   // domainName            String
   // enablePasswordReset   Boolean
   password                 String?
@@ -44,14 +44,17 @@ model EmailApplication {
   recoveryPhoneDescription String?
   approved                 Boolean
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user       User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  ResetToken ResetToken[]
 }
 
 model ResetToken {
-  id        String   @id
-  userId    String
-  tokenHash String
-  expiresAt DateTime
+  id                 String   @id
+  userId             String
+  emailApplicationId String
+  tokenHash          String
+  expiresAt          DateTime
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  emailApplication EmailApplication @relation(fields: [emailApplicationId], references: [id], onDelete: Cascade)
+  user             User             @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

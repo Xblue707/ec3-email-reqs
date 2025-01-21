@@ -9,8 +9,8 @@ import {
 import { createId as cuid2 } from '@paralleldrive/cuid2';
 import ky from 'ky';
 
-import type { APIContext } from 'astro';
 import { dedent } from '@/lib/util';
+import type { APIContext } from 'astro';
 
 export async function POST(context: APIContext) {
 	const session = context.locals.session;
@@ -89,6 +89,7 @@ export async function POST(context: APIContext) {
 			userId: applicant.id,
 			tokenHash: tokenHash,
 			expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 2).toISOString(),
+			emailApplicationId: application.id,
 		})
 		.returningAll()
 		.executeTakeFirst();

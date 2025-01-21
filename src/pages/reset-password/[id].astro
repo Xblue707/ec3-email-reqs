@@ -1,5 +1,7 @@
 ---
 import { db } from '@/lib/db';
+import { sha256 } from '@oslojs/crypto/sha2';
+import { encodeHexLowerCase } from '@oslojs/encoding';
 
 import Layout from '../../layouts/Layout.astro';
 
@@ -12,14 +14,34 @@ if (!session) {
 
 const { id } = Astro.params;
 
+const tokenHash = encodeHexLowerCase(
+	sha256(new TextEncoder().encode(id as string)),
+);
+
 const passwordResetTokenEntry = await db
 	.selectFrom('ResetToken')
-	.where('id', '==', id as string)
+	.where('tokenHash', '==', tokenHash)
 	.selectAll()
 	.executeTakeFirst();
 
 if (!passwordResetTokenEntry) {
 	return Astro.redirect('/portal', 404);
+}
+
+const emailApplication = await db
+	.selectFrom('EmailApplication')
+	.where('id', '==', passwordResetTokenEntry.emailApplicationId)
+	.selectAll()
+	.executeTakeFirst();
+
+const expiryDate = new Date(passwordResetTokenEntry.expiresAt);
+
+if (expiryDate < new Date()) {
+	await db
+		.deleteFrom('ResetToken')
+		.where('id', '==', passwordResetTokenEntry.id)
+		.execute();
+	return Astro.redirect('/portal', 401);
 }
 
 const userEntry = (await db
@@ -35,12 +57,53 @@ if (user.email !== userEntry.email) {
 
 <Layout>
 	<div class="flex flex-col pt-32 h-full sm:w-5/6 md:w-2/3 lg:w-1/2 xl:w-1/3 mx-auto">
-		<form method="post" action="/api/applications/add" enctype="multipart/form-data">
+		<form method="post" action=`/api/reset-password/${id}` enctype="multipart/form-data">
 			<h1 class="text-3xl font-bold text-center">Update/Set Password</h1>
 			<p class="text-center mt-3">
-				Please fill out the form below to update or set your password.
+				Please fill out the form below to update or set your password for {emailApplication?.username}@ec3.dev.
 			</p>
-			<div class="flex flex-col mt-7 gap-5">
+			<div class="flex flex-col mt-7 gap-5" x-data="{ password: '', confirmPassword: '', showMismatchError: false }">
+				<label class="input input-bordered flex items-center gap-2">
+					<span class="icon-[mdi--lock] h-4 w-4"></span>
+					<input
+						type="password"
+						class="grow"
+						placeholder="Password"
+						name="password"
+						x-model="password"
+						required
+						aria-required
+					/>
+				</label>
+
+				<label class="input input-bordered flex items-center gap-2">
+					<span class="icon-[mdi--lock] h-4 w-4"></span>
+					<input
+						type="password"
+						class="grow"
+						placeholder="Confirm Password"
+						name="confirmPassword"
+						x-model="confirmPassword"
+						x-on:input="showMismatchError = password !== confirmPassword"
+						required
+						aria-required
+					/>
+				</label>
+
+				<div role="alert" class="alert alert-error" x-show="showMismatchError" x-transition.duration.200ms>
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						class="h-6 w-6 shrink-0 stroke-current"
+						fill="none"
+						viewBox="0 0 24 24">
+						<path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							stroke-width="2"
+							d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+					</svg>
+					<span>Passwords do not match.</span>
+				</div>
 				
 
 				<button type="submit" class="btn btn-primary">Apply</button>
