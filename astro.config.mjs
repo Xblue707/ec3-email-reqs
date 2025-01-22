@@ -10,7 +10,7 @@ import node from '@astrojs/node';
 
 // https://astro.build/config
 export default defineConfig({
-	site: 'https://email-apps.ec3.dev',
+	site: 'https://email-req.ec3.dev',
 	output: 'server',
 	integrations: [
 		alpinejs({
