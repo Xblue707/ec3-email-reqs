@@ -4,7 +4,7 @@ WORKDIR /app
 COPY . .
 RUN yarn install
 RUN yarn build
-
+RUN yarn prisma migrate deploy
 # Bind to all interfaces
 ENV HOST=0.0.0.0
 # Port to listen on
